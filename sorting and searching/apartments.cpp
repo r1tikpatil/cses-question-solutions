@@ -6,12 +6,21 @@ void solve(vector<ll> &arr, ll n, ll m, ll k, vector<ll> &apartment_size)
 {
     ll count = 0;
     sort(apartment_size.begin(), apartment_size.end());
+    sort(arr.begin(), arr.end());
 
-    for (int i = 0; i < n; i++)
+    int i = 0, j = 0;
+    while (i < n)
     {
-        int ind = lower_bound(apartment_size.begin(), apartment_size.end(), arr[i]) - apartment_size.begin();
-        if ((ind != m && (arr[i] > (apartment_size[ind] - k) && arr[i] < (apartment_size[ind] + k))) || (ind != 0 && (arr[i] > (apartment_size[ind - 1] - k) && arr[i] < (apartment_size[ind - 1] + k))) || (ind + 1 != m && (arr[i] > (apartment_size[ind + 1] - k) && arr[i] < (apartment_size[ind + 1] + k))))
+        while (j < m && apartment_size[j] < arr[i] - k)
+            j++;
+        if (abs(apartment_size[j] - arr[i]) <= k)
+        {
             count++;
+            i++;
+            j++;
+        }
+        else
+            i++;
     }
 
     cout << count << endl;
